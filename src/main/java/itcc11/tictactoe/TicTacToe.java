@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
  * Francis King C. Uyguangco
  * Tic Tac Toe is fun!
 */
+
 public class TicTacToe {
     private JFrame frame;
     private JPanel panel;
@@ -47,11 +48,6 @@ public class TicTacToe {
 	panel.setBorder(new EmptyBorder(5, 5, 5, 5));
         panel.setLayout(null);
         panel.setBackground(Color.decode("#EAEEE9"));
-        
-        title = new JLabel("TIC TAC TOE");
-        title.setBounds(62,10,150,25);
-        title.setFont(TitleFont);
-        panel.add(title);
         
         Buttons();
         Board();
@@ -93,7 +89,7 @@ public class TicTacToe {
                         int selection = JOptionPane.showOptionDialog(frame, "          Player " + (xTurn ? "O" : "X") + " wins!", "Result", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, option, option[0]);
                         if(selection == 0)
                         {
-                            reset();
+                            Reset();
                         }
                         else
                         {
@@ -106,7 +102,7 @@ public class TicTacToe {
                         int selection = JOptionPane.showOptionDialog(frame, "   It is a Draw! Play Again?", "Result", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, option, option[0]);
                         if(selection == 0)
                         {
-                            reset();
+                            Reset();
                         }
                         else
                         {
@@ -138,11 +134,15 @@ public class TicTacToe {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                reset();
+                Reset();
             }
         });
+        
+        title = new JLabel("TIC TAC TOE");
+        title.setBounds(62,10,150,25);
+        title.setFont(TitleFont);
+        panel.add(title);
     }
-    
     
     private void Board()
     {
@@ -155,7 +155,7 @@ public class TicTacToe {
         }
     }
     
-    private void reset() 
+    private void Reset() 
     {
         Board();
         counter = 0;
