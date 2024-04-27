@@ -4,19 +4,20 @@
 
 package itcc11.tictactoe;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Label;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
 /**
  * Francis King C. Uyguangco
@@ -24,10 +25,11 @@ import javax.swing.border.EmptyBorder;
 */
 
 public class TicTacToe {
-    private JFrame frame;
-    private JPanel panel;
-    private JButton btn, reset;
-    private JLabel title;
+    private Frame frame;
+    private Panel panel;
+    private Button[][] btn = new Button[3][3];
+    private Button clicked, reset;
+    private Label title;
     private boolean xTurn = true;
     private String[][] board = new String[3][3];
     private int counter = 0;
@@ -36,21 +38,32 @@ public class TicTacToe {
     private Font font = new Font("Arial",Font.BOLD,15);
     TicTacToe()
     {
-        frame = new JFrame("Activity 5");
+        frame = new Frame("Activity 5");
         frame.setSize(265,310);
         frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
         
-        panel = new JPanel();
-        frame.setContentPane(panel);
-	panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        panel = new Panel();
         panel.setLayout(null);
         panel.setBackground(Color.decode("#EAEEE9"));
         
+        title = new Label("TIC TAC TOE");
+        title.setBounds(60,10,150,25);
+        title.setFont(TitleFont);
+        panel.add(title);
+        
         Buttons();
         Board();
+        
+        frame.addWindowListener(new WindowAdapter() 
+        {
+            public void windowClosing(WindowEvent e) 
+            {
+                System.exit(0);
+            }
+        });
+
+        frame.add(panel);
         frame.setVisible(true);
     }
     
@@ -62,24 +75,24 @@ public class TicTacToe {
             public void actionPerformed(ActionEvent e) 
             {
                 counter++;
-                btn = (JButton) e.getSource();
-                int x = (btn.getX() - 50) / 50;
-                int y = (btn.getY() - 50) / 50;
+                clicked = (Button) e.getSource();
+                int x = (clicked.getX() - 50) / 50;
+                int y = (clicked.getY() - 50) / 50;
                 
                 if (board[x][y] == null) 
                 {
                     if (xTurn) 
                     {
-                        btn.setText("X");
-                        btn.setBackground(Color.decode("#E0FFFF"));
-                        btn.setEnabled(false);
+                        clicked.setLabel("X");
+                        clicked.setBackground(Color.decode("#E0FFFF"));
+                        clicked.setEnabled(false);
                         board[x][y] = "X";
                     } 
                     else 
                     {
-                        btn.setText("O");
-                        btn.setBackground(Color.decode("#AAF0D1"));
-                        btn.setEnabled(false);
+                        clicked.setLabel("O");
+                        clicked.setBackground(Color.decode("#AAF0D1"));
+                        clicked.setEnabled(false);
                         board[x][y] = "O";
                     }
                     xTurn = !xTurn;
@@ -98,7 +111,7 @@ public class TicTacToe {
                     }
                     else if (counter == 9)
                     {
-                        String[] option = {"New Game", "Exit"};
+                        String[] option = {"Play Again", "Exit"};
                         int selection = JOptionPane.showOptionDialog(frame, "   It is a Draw! Play Again?", "Result", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, option, option[0]);
                         if(selection == 0)
                         {
@@ -117,17 +130,16 @@ public class TicTacToe {
         {
             for(int y = 0; y < 3; y++)
             {
-                btn = new JButton("");
-                btn.setBounds((x * 50) + 50,(y * 50) + 50,50,50);
-                btn.setBackground(null);
-                btn.setBorder(normal);
-                btn.setFont(font);
-                panel.add(btn);
-                btn.addActionListener(Action);
+                btn[x][y] = new Button("");
+                btn[x][y].setBounds((x * 50) + 50,(y * 50) + 50,50,50);
+                btn[x][y].setBackground(null);
+                btn[x][y].setFont(font);
+                panel.add(btn[x][y]);
+                btn[x][y].addActionListener(Action);
             }
         }
         
-        reset = new JButton("Reset");
+        reset = new Button("Reset");
         reset.setBounds(75,225,100,25);
         panel.add(reset);
         reset.addActionListener(new ActionListener(){
@@ -137,11 +149,6 @@ public class TicTacToe {
                 Reset();
             }
         });
-        
-        title = new JLabel("TIC TAC TOE");
-        title.setBounds(62,10,150,25);
-        title.setFont(TitleFont);
-        panel.add(title);
     }
     
     private void Board()
@@ -160,14 +167,14 @@ public class TicTacToe {
         Board();
         counter = 0;
         xTurn = true;
-        for (int x = 0; x < 9; x++) 
+        for (int x = 0; x < 3; x++) 
         {
-            btn = (JButton) panel.getComponent(x);
-            btn.setBackground(null);
-            btn.setBorder(normal);
-            btn.setFont(font);
-            btn.setEnabled(true);
-            btn.setText("");
+            for (int y = 0; y < 3; y++) 
+            {
+                btn[x][y].setLabel(board[x][y] == null ? "" : board[x][y]);
+                btn[x][y].setBackground(null);
+                btn[x][y].setEnabled(true);
+            }
         }
     }
     
