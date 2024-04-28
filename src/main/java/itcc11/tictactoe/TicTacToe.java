@@ -15,9 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import javax.swing.border.Border;
 
 /**
  * Francis King C. Uyguangco
@@ -33,7 +31,6 @@ public class TicTacToe {
     private boolean xTurn = true;
     private String[][] board = new String[3][3];
     private int counter = 0;
-    private Border normal = BorderFactory.createLineBorder(Color.decode("#666362"), 1);
     private Font TitleFont = new Font("Times New Roman",Font.BOLD,20);
     private Font font = new Font("Arial",Font.BOLD,15);
     TicTacToe()
